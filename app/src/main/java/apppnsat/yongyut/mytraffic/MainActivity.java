@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 MediaPlayer buttonMediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.effect_btn_shut);
                 buttonMediaPlayer.start();
 
+
             }  //event
         });
 
