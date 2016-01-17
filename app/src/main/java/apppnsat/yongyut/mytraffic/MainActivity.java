@@ -1,6 +1,8 @@
 package apppnsat.yongyut.mytraffic;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,11 +40,17 @@ public class MainActivity extends AppCompatActivity {
 
 
                 //Sound Effect
-                MediaPlayer buttonMediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.effect_btn_shut);
+                MediaPlayer buttonMediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.effect_btn_long);
                 buttonMediaPlayer.start();
 
+                //Show Webview
+                Intent objIntent = new Intent(Intent.ACTION_VIEW);
+                objIntent.setData(Uri.parse("https://youtu.be/5zROCThpVyc"));
+                startActivity(objIntent);
 
-            }  //event
+
+
+  }  //event
         });
 
 
