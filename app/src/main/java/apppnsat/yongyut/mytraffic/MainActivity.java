@@ -6,8 +6,13 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +20,11 @@ public class MainActivity extends AppCompatActivity {
     //Explicit
     private ListView TrafficListView;
     private Button aboutMeButton;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
 
     @Override
@@ -34,14 +44,15 @@ public class MainActivity extends AppCompatActivity {
         ListViewController();
 
 
-
-
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }  // Main Method
 
     private void ListViewController() {
 
         //1#
-        int[] iconInts = {R.drawable.traffic_01, R.drawable.traffic_02,
+        final int[] iconInts = {R.drawable.traffic_01, R.drawable.traffic_02,
                 R.drawable.traffic_03, R.drawable.traffic_04, R.drawable.traffic_05,
                 R.drawable.traffic_06, R.drawable.traffic_07, R.drawable.traffic_08,
                 R.drawable.traffic_09, R.drawable.traffic_10, R.drawable.traffic_11,
@@ -50,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 R.drawable.traffic_18, R.drawable.traffic_19, R.drawable.traffic_20};
 
         //#2
-        String[] titleStrings = new String[20];
+        final String[] titleStrings = new String[20];
         titleStrings[0] = "หัวขัอหลัก ที่ 1";
         titleStrings[1] = "หัวขัอหลัก ที่ 2";
         titleStrings[2] = "หัวขัอหลัก ที่ 3";
@@ -80,6 +91,24 @@ public class MainActivity extends AppCompatActivity {
                 titleStrings, descriptionStrings);
         TrafficListView.setAdapter(objMyAdapter);
 
+
+        //Actiove When Click on ListView
+        TrafficListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent objIntent = new Intent(MainActivity.this, DetailActivity.class);
+
+                objIntent.putExtra("Title", titleStrings[position]);
+                objIntent.putExtra("Image", iconInts[position]);
+                objIntent.putExtra("Index", position);
+                startActivity(objIntent);
+
+
+
+
+            }  //event
+        });
+
     }
 
 
@@ -97,24 +126,60 @@ public class MainActivity extends AppCompatActivity {
 
                 //Show Webview
                 Intent objIntent = new Intent(Intent.ACTION_VIEW);
-                objIntent.setData(Uri.parse("https://youtu.be/5zROCThpVyc"));
+                objIntent.setData(Uri.parse("https://youtu.be/rpGAAyAQWIQ"));
                 startActivity(objIntent);
 
 
-
-
-
-
-
-  }  //event
+            }  //event
         });
 
 
     }
+
     private void bindWidget() {
         TrafficListView = (ListView) findViewById(R.id.livTraffic);
         aboutMeButton = (Button) findViewById(R.id.button);
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://apppnsat.yongyut.mytraffic/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app URL is correct.
+                Uri.parse("android-app://apppnsat.yongyut.mytraffic/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
     }
 } // Main Class
